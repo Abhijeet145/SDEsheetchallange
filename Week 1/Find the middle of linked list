@@ -1,0 +1,18 @@
+Given the head node of the singly linked list, return a pointer pointing to the middle of the linked list.
+If there are an odd number of elements, return the middle element if there are even elements return the one which is farther from the head node.
+
+class Solution {
+public:
+    ListNode* middleNode(ListNode* head) {
+        if(head==NULL)
+            return head;
+        ListNode* slow = head;
+        ListNode* fast = head;
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        return slow;
+    }
+};
