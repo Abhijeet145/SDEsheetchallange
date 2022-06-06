@@ -1,0 +1,40 @@
+You are given two Singly Linked List of integers, which are merging at some node of a third linked list.
+Your task is to find the data of the node at which merging starts. If there is no merging, return -1.
+
+class Solution {
+public:
+    ListNode *getIntUtil(ListNode *headA, ListNode *headB,int m,int n) 
+    {
+        for(int i=0;i<m-n;i++)
+        headA = headA->next;
+        
+        for(int i=0;i<n;i++)
+        {
+            if(headA == headB)
+                return headA;
+            headA = headA->next;
+            headB = headB->next;
+        }
+        return NULL;
+    }
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB)
+    {
+        int m=0,n=0;
+        ListNode*currA = headA,*currB = headB;
+        while(currA!=NULL)
+        {
+            m++;
+            currA = currA->next;
+        }
+        while(currB!=NULL)
+        {
+            n++;
+            currB = currB->next;
+        }
+        
+        if(m>=n)
+            return getIntUtil(headA,headB,m,n);
+        else
+            return getIntUtil(headB,headA,n,m);
+    }
+};
