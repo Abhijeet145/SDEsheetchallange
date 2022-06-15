@@ -8,6 +8,7 @@ of the previous row (if exists).
 You are given an integer 'TARGET' and your task is to find if it exists
 in the given 'MAT' or not.
 
+Approach 1:
 class Solution {
 public:
     bool searchMatrix(vector<vector<int>>& matrix, int target) {
@@ -20,6 +21,32 @@ public:
                 c--;
             else
                 r++;
+        }
+        return false;
+    }
+};
+
+
+Approach 2:
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        if(matrix.size()==0)
+            return false;
+        int n = matrix.size();
+        int m = matrix[0].size();
+        int low = 0,high = m*n-1,mid,r,c;
+        while(low<=high)
+        {
+            mid = low+(high-low)/2;
+            r = mid/m;c=mid%m;
+            if(target==matrix[r][c])
+                return true;
+            if(target<matrix[r][c])
+                high = mid-1;
+            else
+                low = mid+1;
         }
         return false;
     }
