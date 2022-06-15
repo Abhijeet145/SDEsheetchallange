@@ -23,3 +23,7 @@ public:
         }
     }
 };
+
+//to remember
+the target is to keep all zeros left of mid and all 2's right of mid
+and eventually all one's will come at the center thus sorting the array.
