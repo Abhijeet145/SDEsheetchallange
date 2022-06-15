@@ -1,0 +1,26 @@
+You have been given a 2-D array 'MAT' of size M x N where 'M' and 'N' 
+denote the number of rows and columns, respectively. The elements of 
+each row are sorted in non-decreasing order.
+
+Moreover, the first element of a row is greater than the last element
+of the previous row (if exists).
+
+You are given an integer 'TARGET' and your task is to find if it exists
+in the given 'MAT' or not.
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int r = 0,c = matrix[0].size() - 1;
+        while(r<matrix.size() && c>=0)
+        {
+            if(matrix[r][c]==target)
+                return true;
+            if(target<matrix[r][c])
+                c--;
+            else
+                r++;
+        }
+        return false;
+    }
+};
