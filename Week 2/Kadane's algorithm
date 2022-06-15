@@ -17,3 +17,8 @@ public:
         return ans;
     }
 };
+//to remember
+we try to add numbers to our current sum and keep updating the result and 
+if at any point we see that current sum is -ve we can easily see that adding
+numbers to a already -ve number is never going to give us the maximum value
+So we start a new sum from 0.
