@@ -1,0 +1,16 @@
+You are given a Singly Linked List of integers and a reference to the node to be deleted.
+Every node of the Linked List has a unique value written on it. Your task is to delete
+that node from the linked list.
+
+class Solution {
+public:
+    void deleteNode(ListNode* node) {
+        node->val = node->next->val;
+        ListNode* temp = node->next;
+        node->next = node->next->next;
+        delete temp;
+    }
+};
+
+// to remember
+Copy the value of next node into current and then delete the next node.
