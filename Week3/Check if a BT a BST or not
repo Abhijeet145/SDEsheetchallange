@@ -1,0 +1,29 @@
+Given a binary tree with N number of nodes, check if that input tree is Partial BST
+(Binary Search Tree) or not. If yes, return true, return false otherwise.
+
+
+class Solution {
+public:
+    // rl --> right limit
+    // ll --> left limit
+    bool validator(TreeNode* root,TreeNode* ll,TreeNode* rl)
+    {
+        if(root==NULL)
+            return 1;
+        if(ll && root->val <= ll->val || rl && root->val >= rl->val)
+            return 0;
+        return validator(root->left,ll,root) && validator(root->right, root,rl);
+    }
+    
+    bool isValidBST(TreeNode* root) {
+        return validator(root,NULL,NULL);
+    }
+};
+
+// to remember
+Think of a range in which a particular node's value can lie and keep
+changing this range as you go to left or right.
+If we go to right our left range is limited by current node's value as 
+everything on the right should be greater than this value
+Similarly if we go to the left our right range is limited by current
+node's value as everything on left should be lesser than this value
