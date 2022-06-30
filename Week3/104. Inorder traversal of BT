@@ -1,0 +1,24 @@
+Given the root of a binary tree, return the inorder traversal of its nodes' values.
+
+class Solution {
+public:
+    void inorderUtil(TreeNode* root,vector<int> &v)
+    {
+        if(root==NULL)
+            return;
+        inorderUtil(root->left,v);
+        v.push_back(root->val);
+        inorderUtil(root->right,v);
+    }
+    vector<int> inorderTraversal(TreeNode* root) {
+        vector<int> vec;
+        inorderUtil(root,vec);
+        return vec;
+    }
+};
+
+// to remember
+Left and right are kept fixed in that order.
+Iorder means Left , root , right.
+We need to recur for left first then process the root 
+and then recur for right node.
