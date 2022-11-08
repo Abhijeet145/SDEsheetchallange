@@ -1,0 +1,24 @@
+You are given an array (ARR) of length N, consisting of integers. You have to
+find the sum of the subarray (including empty subarray) having maximum sum 
+among all subarrays.
+
+class Solution {
+public:
+    int maxSubArray(vector<int>& nums) {
+        int ans=INT_MIN;
+        int sum=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            sum+=nums[i];
+            ans = max(ans,sum);
+            if(sum<0)
+                sum=0;
+        }
+        return ans;
+    }
+};
+//to remember
+we try to add numbers to our current sum and keep updating the result and 
+if at any point we see that current sum is -ve we can easily see that adding
+numbers to a already -ve number is never going to give us the maximum value
+So we start a new sum from 0.

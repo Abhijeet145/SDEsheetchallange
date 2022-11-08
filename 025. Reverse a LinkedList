@@ -1,0 +1,18 @@
+Given a singly linked list of integers. Your task is to return the head of the reversed linked list.
+
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if(head==NULL)
+            return head;
+        ListNode *curr = head,*prev = NULL,*next=NULL;
+        while(curr!=NULL)
+        {
+            next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+};

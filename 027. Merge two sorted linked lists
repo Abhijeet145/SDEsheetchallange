@@ -1,0 +1,43 @@
+You are given two sorted linked lists. You have to merge them to produce a combined sorted linked list. You need to return the head of the final linked list.
+
+class Solution {
+public:
+    ListNode* mergeTwoLists(ListNode* a, ListNode* b) {
+        if(a==NULL)
+            return b;
+        if(b==NULL)
+            return a;
+        ListNode* head,*curr;
+        if(a->val < b->val)
+        {
+            head = curr =  a;
+            a = a->next;
+        }
+        else
+        {
+            head = curr = b;
+            b = b->next;
+        }
+        while(a!=NULL && b!=NULL)
+        {
+            if(a->val < b->val)
+            {
+                curr->next = a;
+                curr = curr->next;
+                a = a->next;
+            }
+            else
+            {
+                curr->next = b;
+                curr = curr->next;
+                b = b->next;
+            }
+        }
+        if(a!=NULL)
+            curr->next = a;
+        else
+            curr->next = b;
+        return head;
+        
+    }
+};

@@ -1,0 +1,21 @@
+You are given a sorted integer array' ARR' of size 'N'. You need to remove the duplicates 
+from the array such that each element appears only once. Return the length of this new array.
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        int j=0;
+        for(int i=1;i<nums.size();i++)
+        {
+            if(nums[i]!=nums[j])
+            {
+                j++;
+                nums[j]=nums[i];   
+            }
+        }
+        return j+1;
+    }
+};
+
+// to remember
+It is basically a two pointer approach problem.

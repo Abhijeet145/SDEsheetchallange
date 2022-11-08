@@ -1,0 +1,60 @@
+You are given two non-empty linked lists representing two non-negative integers.
+The digits are stored in reverse order, and each of their nodes contains a 
+single digit. Add the two numbers and return the sum as a linked list.
+
+You may assume the two numbers do not contain any leading zero, except
+the number 0 itself.
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode *head = new ListNode();
+        ListNode *curr = head;
+        int carry=0;
+        while(l1!=nullptr && l2!=nullptr)
+        {
+            int sum = l1->val + l2->val + carry;
+            int dig = sum%10;
+            carry = sum/10;
+            ListNode *temp =new ListNode(dig);
+             
+            curr->next = temp;
+            curr = curr->next;
+           
+            l1=l1->next;
+            l2=l2->next;
+        }
+        while(l1!=nullptr)
+        {
+            int sum = l1->val + carry;
+            int dig = sum%10;
+            carry = sum/10;
+            ListNode *temp  = new ListNode(dig);
+            curr->next = temp;
+            curr = curr->next;
+            l1=l1->next;
+        }
+        while(l2!=nullptr)
+        {
+            int sum = l2->val + carry;
+            int dig = sum%10;
+            carry = sum/10;
+            ListNode *temp  = new ListNode(dig);
+            curr->next = temp;
+            curr = curr->next;
+            l2=l2->next;
+        }
+        if(carry>0)
+        {
+            ListNode *temp  = new ListNode(carry);
+            curr->next = temp;
+            curr = curr->next;
+        }
+        
+        return head->next;
+    }
+};
+
+//to remember
+The numbers should be represented as reverse by a linked lists. Now it is just simple 
+school maths addition. 

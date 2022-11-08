@@ -1,0 +1,31 @@
+You have been given a singly Linked List of 'N' nodes with integer data and an integer 'K'. Your task is to remove the Kth node from the end of the given Linked List.
+
+class Solution {
+public:
+    ListNode* removeNthFromEnd(ListNode* head, int n) {
+        
+        ListNode* mark = head;
+        for(int i=0;i<n;i++)
+        {
+            if(mark==NULL)
+                return head;
+            mark= mark->next;
+        }
+        if(mark==NULL)
+        {
+            ListNode *temp = head->next;
+            delete head;
+            return temp;
+        }
+        ListNode* curr = head;
+        while(mark->next!=NULL)
+        {
+            mark = mark->next;
+            curr = curr->next;
+        }
+        ListNode* temp = curr->next;
+        curr->next = curr->next->next;
+        delete temp;
+        return head;  
+    }
+};
