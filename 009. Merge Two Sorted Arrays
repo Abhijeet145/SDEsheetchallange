@@ -1,15 +1,49 @@
-Ninja has been given two sorted integer arrays/lists ‘ARR1’ and ‘ARR2’ of size ‘M’ and ‘N’.
-Ninja has to merge these sorted arrays/lists into ‘ARR1’ as one sorted array. You may have
-to assume that ‘ARR1’ has a size equal to ‘M’ + ‘N’ such that ‘ARR1’ has enough space to add 
-all the elements of ‘ARR2’ in ‘ARR1’.
+Given two sorted arrays arr1[] and arr2[] of sizes n and m in non-decreasing order. Merge them in sorted order without using any extra space. Modify arr1 so that it contains the first N elements and modify arr2 so that it contains the last M elements.
+ 
 
-#include <bits/stdc++.h> 
-vector<int> ninjaAndSortedArrays(vector<int>& arr1, vector<int>& arr2, int m, int n)
-{
-    for(int i=m;i<m+n;i++) // merging the elements of the array
-    arr1[i]=arr2[i-m];
-    
-    sort(arr1.begin(),arr1.end()); // sorting the array
-	
-    return arr1;
-}
+class Solution{
+
+    public:
+        //GAP method
+        void merge(long long arr1[], long long arr2[], int n, int m) 
+        { 
+            // code here 
+            int gap =ceil((double)(m+n)/2);
+            while(1)
+            {
+                int i = 0,j = gap;
+                while(j<(m+n))
+                {
+                    int a = i<n?arr1[i]:arr2[i-n],
+                        b = j<n?arr1[j]:arr2[j-n];
+                    if(a>b)
+                    {
+                        int temp = a;
+                        if(j<n)
+                        {
+                            arr1[i] = b;
+                            arr1[j] = a;
+                        }
+                        else if(i<n)
+                        {
+                            arr1[i] = b;
+                            arr2[j-n] = a;
+                        }
+                        else
+                        {
+                            arr2[i-n] = b;
+                            arr2[j-n] = a;
+                        }
+                    }
+                    i++;
+                    j++;
+                }
+                if(gap==1)
+                break;
+                gap = ceil((double)gap/2);
+            }
+        } 
+};
+
+//using gap method gap has gap-1 gaps and always take ceil.
+//if elements at boundary are not in order swap them
