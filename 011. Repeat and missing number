@@ -1,0 +1,50 @@
+Given an unsorted array Arr of size N of positive integers. One number 'A' from set {1, 2, …N} is missing and one number 'B' occurs twice in array. Find these two numbers.
+
+class Solution{
+public:
+    int *findTwoElement(int *A, int n) {
+        // code here
+        int num = 0;
+        for(int i=0;i<n;i++)
+            num = num^A[i]^(i+1);
+        
+        //get the rightmost set bit 
+        int count = 0;
+        while((num&1) == 0)
+        {
+            count++;
+            num = num>>1;
+        }
+   
+        int x=0,y=0;
+        for(int i=0;i<n;i++)
+        {
+            if((A[i]>>count)&1)
+            x^=A[i];
+            else
+            y^=A[i];
+            
+            if(((i+1)>>count)&1)
+            x^=(i+1);
+            else
+            y^=(i+1);
+        }
+        int *arr = new int[2];
+        for(int i=0;i<n;i++)
+        {
+            if(A[i]==x)
+            {
+                arr[0]=x;
+                arr[1]=y;
+            }
+            if(A[i]==y)
+            {
+                arr[0]=y;
+                arr[1]=x;
+            }
+        }
+        return arr;
+    }
+};
+
+// see the code and understand
