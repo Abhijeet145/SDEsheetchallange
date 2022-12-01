@@ -1,0 +1,68 @@
+Implement pow(x, n), which calculates x raised to the power n (i.e., x^n).
+
+Naive approach is to simply do what is asked and directly multiply the numbers n times. O(n) , O(1)
+
+Recursive solution:
+
+class Solution {
+    double util(double x,long long n)
+    {
+        if(n==0)
+            return 1;
+        if(n%2==0)
+            return util(x*x,n/2);
+        return x*util(x,n-1);    
+    }
+public:
+    double myPow(double x, int n) {
+        if(x==0 || x==1)
+            return x;
+        if(n<0)
+        {
+            long long num = n;
+            return 1/(util(x,-1*num));
+        }
+        return util(x,n);  
+    }
+};
+
+//to remember
+Here we try to observe a pattern if power is even 
+2^10 we can rewrite it as 2^5*2*5 = (2*2)^5 = 4^5
+and if odd 4^5 = 4*4^4
+which again makes the power even
+
+Iterative approach:
+
+class Solution {
+public:
+    double myPow(double x, int n) {
+        if(x==0 || x==1)
+            return x;
+        long long num = n;
+        double ans = 1;
+        if(n<0)
+            num = -1*num;
+        
+        while(num>0)
+        {
+            if(num%2==0)
+            {
+                x = x*x;
+                num/=2;
+            }
+            else
+            {
+                ans = ans*x;
+                num -= 1;
+            }
+        }
+        if(n<0)
+            return 1/ans;
+        
+        return ans;
+    }
+};
+
+//if power is even we square our number
+// else we multiply it to our answer
