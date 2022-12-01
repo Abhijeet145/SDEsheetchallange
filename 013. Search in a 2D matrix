@@ -57,4 +57,4 @@ public:
 // to remember
 we can imagine this whole 2-D matrix to be a linear matix starting from index 0 and going till m*n-1.
 Now simply perform binary search in this range, the main observation is to get the row and column indices back from 
-linear type, to do so we will see than row number will be mid/(no.of columns in original matrix) and column number will be mid%(no.of columns in original matrix).
+linear type, to do so we will see that row number will be mid/(no.of columns in original matrix) and column number will be mid%(no.of columns in original matrix).
