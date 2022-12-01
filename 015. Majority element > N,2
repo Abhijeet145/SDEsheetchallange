@@ -1,0 +1,36 @@
+Given an array nums of size n, return the majority element.
+
+The majority element is the element that appears more than ⌊n / 2⌋ times. You may assume that the majority element always exists in the array.
+
+
+class Solution {
+public:
+    int majorityElement(vector<int>& nums) {
+        pair<int,int> temp = {nums[0],1};
+        for(int i=1;i<nums.size();i++)
+        {
+            if(temp.first == nums[i])
+                temp.second += 1;
+            
+            else
+            {
+                temp.second -= 1;
+                if(temp.second == 0)
+                    temp = {nums[i],1};
+            }
+        }
+        
+        return temp.first;
+    }
+};
+
+// Moore's voting algorithm
+this algo only ensures that if a majority exists it will be the same as element given by this and as it is given in the question that the majority exists we can safely return the vale given by the algorithm
+
+if not given 
+int count = 0;
+for(int i=0;i<n;i++)
+if(nums[i] == temp.first)
+count ++;
+
+return count > nums.size()/2 ;
