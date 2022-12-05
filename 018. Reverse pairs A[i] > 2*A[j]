@@ -1,0 +1,70 @@
+Given an integer array nums, return the number of reverse pairs in the array.
+
+A reverse pair is a pair (i, j) where:
+
+0 <= i < j < nums.length and
+nums[i] > 2 * nums[j].
+
+Merge sort approach:
+
+class Solution {
+public:
+    
+    void merge(vector<int> &nums,int low, int mid, int high, int &ans)
+    {
+        int j  = mid+1;
+        for(int i = low;i <= mid;i++)
+        {
+            while(j <= high && nums[i] > (long long)2*nums[j])
+                j++;
+            
+            ans += j - (mid + 1);
+        }
+        
+        vector<int> temp;
+        int i = low;
+        j = mid+1;
+        while(i <= mid && j <= high)
+        {
+            if(nums[i] < nums[j])
+                temp.push_back(nums[i++]);
+             
+            else
+                temp.push_back(nums[j++]);
+        }
+        while( i <= mid)
+            temp.push_back(nums[i++]);
+        
+        while(j <= high)
+            temp.push_back(nums[j++]);
+        
+        for(int k = low;k <= high; k++)
+            nums[k] = temp[k-low];
+        
+    }
+    
+    void merge_s(vector<int>& nums, int low , int high, int &ans)
+    {
+        if(low < high)
+        {
+            int mid = low + (high-low)/2;
+            
+            merge_s(nums , low , mid , ans);
+            merge_s(nums , mid + 1 , high , ans);
+            
+            merge(nums,low,mid,high,ans);
+        }
+    }
+    
+    int reversePairs(vector<int>& nums) {
+        int ans = 0;
+        
+        merge_s(nums,0,nums.size()-1,ans);
+
+        return ans;
+    }
+};
+
+// This intuition is inspired by merge sort technique
+
+Do the normal merge sort and do some variation in merge function before merging to check for the given consitions
