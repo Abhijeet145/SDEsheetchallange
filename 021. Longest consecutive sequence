@@ -1,0 +1,33 @@
+Given an unsorted array of integers nums, return the length of the longest consecutive elements sequence.
+
+You must write an algorithm that runs in O(n) time.
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        unordered_set<int> s(nums.begin(),nums.end());
+        int ans = 0,count;
+        while(!s.empty())
+        {
+            int curr = *s.begin();
+            int temp = curr;
+            s.erase(curr);
+            count = 1;
+            while(s.find(curr-1)!=s.end())
+            {
+                count++;
+                s.erase(curr-1);
+                curr--;
+            }
+            while(s.find(temp+1)!=s.end())
+            {
+                count++;
+                s.erase(temp+1);
+                temp++;
+            }
+            ans = max(ans,count);
+        }
+        return ans;
+    }
+};
+
