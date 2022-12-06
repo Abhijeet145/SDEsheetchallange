@@ -1,0 +1,55 @@
+Given an array nums of n integers, return an array of all the unique quadruplets [nums[a], nums[b], nums[c], nums[d]] such that:
+
+0 <= a, b, c, d < n
+a, b, c, and d are distinct.
+nums[a] + nums[b] + nums[c] + nums[d] == target
+You may return the answer in any order.
+
+class Solution {
+public:
+    vector<vector<int>> fourSum(vector<int>& nums, int target) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> ans;
+
+        int n = nums.size();
+        for(int i=0;i<n-3;i++)
+        {
+            for(int j = i+1; j<n-2; j++)
+            {
+                long long t = (long long)target - nums[i] - nums[j];
+                int left = j+1,right = n-1;
+                while(left < right)
+                {
+                    long long sum = nums[left]+nums[right];
+                    if(sum == t)
+                    {
+                        ans.push_back({nums[i],nums[j],nums[left],nums[right]});
+                        while(left < right && nums[right-1]==nums[right])
+                            right--;
+                        right--;
+                    }
+                    else if(sum < t)
+                    {
+                        while(left<right && nums[left]==nums[left+1])
+                            left++;
+                        left++;
+                    }
+                    else
+                    {
+                        while(left < right && nums[right-1]==nums[right])
+                            right--;
+                        right--;
+                    }
+                }
+                while(j<n-2 && nums[j] == nums[j+1])
+                    j++;
+            }
+            while(i<n-3 && nums[i]==nums[i+1])
+                i++;
+        }
+        return ans;
+    }
+};
+
+// the normal approach is to use two outer loops and then the problem just breaks down to finding the target in a sorted array
+// to avoid using to set to avoid repetitions we can skip the repeated elements
