@@ -4,15 +4,17 @@ If there are an odd number of elements, return the middle element if there are e
 class Solution {
 public:
     ListNode* middleNode(ListNode* head) {
-        if(head==NULL)
-            return head;
-        ListNode* slow = head;
-        ListNode* fast = head;
+        //take two pointers slow and fast
+        ListNode *slow = head, *fast = head;
+        
+        // take the conditions after observing which node is required in case of even and odd lengths
         while(fast!=NULL && fast->next!=NULL)
         {
-            slow = slow->next;
-            fast = fast->next->next;
+            slow = slow->next; // slow moves one step forward at a time
+            fast = fast->next->next; // and fast moves two steps at a time
         }
+        
+        //return the slow pinter as this will be the head of the middle 
         return slow;
     }
 };
