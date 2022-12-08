@@ -51,5 +51,8 @@ public:
             curr2 = curr2==NULL?headA:curr2->next;
         }
         return curr1;
+        //observe the changes
+        // when one pointer moves to the end we move it to the starting of another this eliminates the extra moves required for one 
+        // this brings both the lists at the same level
     }
 };
