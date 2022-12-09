@@ -1,0 +1,38 @@
+Given the head of a singly linked list, return true if it is a 
+palindrome or false otherwise.
+
+class Solution {
+    ListNode* reverse(ListNode* root)
+    {
+        ListNode* prev = NULL,*curr = root;
+        while(curr)
+        {
+            ListNode* next = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = next;
+        }
+        return prev;
+    }
+public:
+    bool isPalindrome(ListNode* head) {
+        ListNode* slow = head,*fast = head;
+        while(fast and fast->next and fast->next->next)
+        {
+            slow = slow->next;
+            fast = fast->next->next;
+        }
+        slow = reverse(slow->next);
+        fast = head;
+        while(slow)
+        {
+            if(slow->val != fast->val)
+            return false;
+            slow = slow->next;
+            fast = fast->next;
+        }
+        return true;
+    }
+};
+
+// it is very simple problem just take first half, reverse the second half and check if both the halfs are equal or not
