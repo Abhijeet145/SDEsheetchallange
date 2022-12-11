@@ -1,0 +1,54 @@
+There are n servers numbered from 0 to n - 1 connected by undirected server-to-server connections forming a network where connections[i] = [ai, bi] represents a connection between servers ai and bi. Any server can reach other servers directly or indirectly through the network.
+
+A critical connection is a connection that, if removed, will make some servers unable to reach some other server.
+
+Return all critical connections in the network in any order.
+
+
+class Solution {
+    private:
+    void dfs(vector<vector<int>> &adj,vector<int> &dis,vector<int> &ldt,vector<bool> &visited,int s,int parent,int &timer,vector<vector<int>> &bridges)
+    {
+        visited[s] = true; // mark it as visited
+        dis[s] = ldt[s] = timer; // and put the current time as discovery time and lowest discovery time and increase the timer
+        timer++;
+        for(auto u : adj[s]) //traverse for every element connected to it (source - s)
+        {
+            if(u == parent) continue; // if we encounter the parent we continue
+            if(!visited[u]) // if it is not visited
+            {
+                dfs(adj,dis,ldt,visited,u,s,timer,bridges); // then go visit it
+                ldt[s] = min(ldt[s],ldt[u]); // update the ldt of current vertex
+
+                if(ldt[u] > dis[s]) // if ldt of connected element is greater than discovery time of 
+                bridges.push_back({u,s}); // current element then the connected element can not be reached if we break the link
+                                    // thus it is the bridge or an articulation point in the graph so we add it into our answer
+
+            }
+            else // if not visited earlier
+            ldt[s] = min(ldt[s],ldt[u]); // just update the ldt of current vertex as this cannot be our articulation point anyways
+        }
+    }
+public:
+    vector<vector<int>> criticalConnections(int n, vector<vector<int>>& connections) {
+         vector<vector<int>> adj(n); // first make an adjacency list from given edges
+        for(auto x:connections)
+        {
+            adj[x[0]].push_back(x[1]);
+            adj[x[1]].push_back(x[0]);
+        }
+        vector<bool> visited(n,false); // make a visited array 
+        vector<int> dis(n) , ldt(n); // make discovery time and lowest discovery time vectors
+        vector<vector<int>> bridges;//to store the bridges in the graph
+        int timer = 1; // timer to keep track of discovery time
+
+        dfs(adj,dis,ldt,visited,0,-1,timer,bridges);// call the dfs
+
+        return bridges; // return our found bridges
+    }
+};
+
+// read the comments to get understanding of the logic
+// only thing to remember is the how we are determining if a given connection can be a bridge using the fact that 
+// if we have any other way to reach the node then it can not be a bridge ans else it will be
+// this is made sure with the help of two arrays, discovery time and lowest discovery time of each vertex
