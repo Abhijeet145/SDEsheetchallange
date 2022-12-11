@@ -1,0 +1,58 @@
+Given a Linked List of size N, where every node represents a sub-linked-list and contains two pointers:
+(i) a next pointer to the next node,
+(ii) a bottom pointer to a linked list where this node is head.
+Each of the sub-linked-list is in sorted order.
+Flatten the Link List such that all the nodes appear in a single level while maintaining the sorted order. 
+Note: The flattened list will be printed using the bottom pointer instead of next pointer. For more clearity have a look at the printList() function in the driver code.
+
+
+// function to merge two lists
+Node* merge(Node* a,Node *b)
+{
+    Node* curr = new Node(1);
+    Node* head = curr;
+    while(a && b)
+    {
+        if(a->data < b->data)
+        {
+            curr->bottom = a;
+            a = a->bottom;
+        }
+        else
+        {
+            curr->bottom = b;
+            b = b->bottom;
+        }
+        curr = curr->bottom;
+    }
+    if(a)
+        curr->bottom = a;
+    
+    if(b)
+        curr->bottom = b;
+
+    //clear the extra memory created not neccessary in Java as there is automatic garbage collection
+    curr = head->bottom;
+    delete head;
+    curr->next = NULL;
+    return curr;
+}
+
+
+/*  Function which returns the  root of 
+    the flattened linked list. */
+    
+Node *flatten(Node *root)
+{
+   // Your code here
+   if(root==NULL || root->next == NULL)
+   return root;
+   
+   Node* next = flatten(root->next);
+   
+   return merge(root,next);
+}
+
+//Picture the approach first in your head and then simply write the code
+// we start merging the list from right side and we do this recursively
+// the mrege is just a simple merge function where we have to merge while moving towards bottom
