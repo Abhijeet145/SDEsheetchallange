@@ -1,0 +1,76 @@
+A linked list of length n is given such that each node contains an additional random pointer, which could point to any node in the list, or null.
+
+Construct a deep copy of the list. The deep copy should consist of exactly n brand new nodes, where each new node has its value set to the value of its corresponding original node. Both the next and random pointer of the new nodes should point to new nodes in the copied list such that the pointers in the original list and copied list represent the same list state. None of the pointers in the new list should point to nodes in the original list.
+
+For example, if there are two nodes X and Y in the original list, where X.random --> Y, then for the corresponding two nodes x and y in the copied list, x.random --> y.
+
+Return the head of the copied linked list.
+
+The linked list is represented in the input/output as a list of n nodes. Each node is represented as a pair of [val, random_index] where:
+
+val: an integer representing Node.val
+random_index: the index of the node (range from 0 to n-1) that the random pointer points to, or null if it does not point to any node.
+Your code will only be given the head of the original linked list.
+
+
+class Solution {
+public:
+    Node* copyRandomList(Node* head) {
+        if(head==NULL)
+        return head;
+
+        Node* curr = head;
+        // Add a new node for every node with the same value as current node
+        while(curr)
+        {
+            Node* temp = new Node(curr->val);
+            temp->next = curr->next;
+            curr->next = temp;
+            curr = temp->next;
+        }
+
+        curr = head;
+        //add random pointers to your copied nodes
+        while(curr && curr->next)
+        {
+            Node *next = curr->next;//get hold of the next element which is a copy of original
+
+            //change the random pointer of copy node
+            if(curr->random!=NULL)
+                next->random = curr->random->next;
+            else
+                next->random = NULL;
+
+            //move the curr to next element of current next
+            curr = next->next;
+        }
+
+        curr = head;
+        //mark the head of the copied list
+        head = curr->next;
+        while(curr && curr->next)
+        {
+            Node *next = curr->next;//get hold of the next element which is a copy of original
+
+            curr->next = next->next;//change link of current back to original node
+
+            // link the next pointer in copied list
+            if(next->next)
+            next->next = next->next->next;
+            else
+            next->next = NULL;
+
+            //move the curr to next element of current next
+            curr = curr->next;
+        }
+        //return the head of copied list
+        return head;
+    }
+};
+
+//code is already commented
+approach is to add a deep copy of the original list in between first copy the next pointers
+then change the random pointers
+then finally remove the copied list from oroginal
+
+// naive approach is to use hashmap and first make a seperate node for each node then add the links corresponding to those nodes
