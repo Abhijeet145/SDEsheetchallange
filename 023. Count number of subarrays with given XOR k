@@ -1,0 +1,32 @@
+Given an array of integers A and an integer B.
+
+Find the total number of subarrays having bitwise XOR of all elements equals to B.
+
+Efficient Approach:
+
+int Solution::solve(vector<int> &A, int B) {
+    unordered_map<int,int> mp;
+    int xr = 0;
+    int count = 0;
+    for(auto x:A){
+        xr ^= x;//current xor
+        if(xr == B)//if we get xr equals B
+            count++;
+        int y = xr^B;//this is the first half
+        if(mp.find(y)!=mp.end()){//if this y is already present we add it's frequency to our result
+            count += mp[y];
+        }
+        mp[xr]++;//add the xr to our hashmap
+    }
+    
+    return count;
+}
+
+//to remember
+we try to break current xor in two parts y and k thus
+y ^ k = xr  (should be true)
+y = xr ^ k (is true)
+and if we find that y is already present in our hashmap this means the freq of y number of times we can form k and
+thus we add freq[y] to our result.
+also increase result if (xr == k)(obviously).
+
