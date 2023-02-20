@@ -1,0 +1,35 @@
+Given weights and values of N items, we need to put these items in a knapsack of capacity W to get the maximum total value in the knapsack.
+Note: Unlike 0/1 knapsack, you are allowed to break the item. 
+
+Efficient approach:
+
+class Solution
+{
+    static bool comp(Item a,Item b){
+        return (double)a.value/a.weight > (double)b.value/b.weight;
+    }
+    public:
+    //Function to get the maximum total value in the knapsack.
+    double fractionalKnapsack(int W, Item arr[], int n)
+    {
+        // Your code here
+        sort(arr,arr+n,comp);//sort them as per ratio of their value/weight
+        int i=0;
+        double ans=0;
+        while(i<n){
+            if(arr[i].weight < W){
+                ans += arr[i].value;
+                W -= arr[i].weight;
+            } else {
+                ans += (double)arr[i].value * ((double)W/arr[i].weight);
+                break;
+            }
+            i++;
+        }
+        return ans;
+    }   
+};
+
+// to remember
+sort as per value by wieght ratio
+fill as much as you can
