@@ -1,0 +1,36 @@
+Given arrival and departure times of all trains that reach a railway station. Find the minimum number of platforms required for the railway station so that no train is kept waiting.
+Consider that all the trains arrive on the same day and leave on the same day. Arrival and departure time can never be the same for a train but we can have arrival time of one train equal to departure time of the other. At any given instance of time, same platform can not be used for both departure of a train and arrival of another train. In such cases, we need different platforms.
+
+Efficient approach:
+
+class Solution{
+    static bool comp(pair<int,int> a,pair<int,int> b){
+        if(a.first==b.first) return a.second>b.second;//as we want the arrival time to come first as when both are same we need different platforms
+        return a.first<b.first;
+    }
+    public:
+    //Function to find the minimum number of platforms required at the
+    //railway station such that no train waits.
+    int findPlatform(int arr[], int dep[], int n)
+    {
+    	// Your code here
+    	vector<pair<int,int>> sch;
+    	for(int i=0;i<n;i++){
+    	    sch.push_back({arr[i],1});//when train arrives requirement of platforms increases
+    	    sch.push_back({dep[i],-1});//when it leaves the requirement decreases
+    	}
+    	sort(sch.begin(),sch.end(),comp);
+    	int curr=0,ans=0;
+    	for(auto x:sch){
+    	    curr += x.second;
+    	    ans = max(ans,curr);
+    	}
+    	return ans;
+    }
+};
+
+//to remember
+deal with arrivial and departure independently
+whenever a train arrives the requirement increases and when it leaves the requiremen decreases 
+sort as per time and associate a value 1 for apparture and -1 for departure
+if two trains have same arrival and departure we place arrival first
