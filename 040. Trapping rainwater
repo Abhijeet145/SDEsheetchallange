@@ -23,3 +23,7 @@ public:
         return ans;
     }
 };
+
+//to remember
+get the min height from left and right of and subtract from current height(this much water will be filled in this cell
+do this for all cells.
