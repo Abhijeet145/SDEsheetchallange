@@ -1,0 +1,26 @@
+Given a string s, find the length of the longest substring without repeating characters.
+
+Efficient solution:
+
+class Solution {
+public:
+    int lengthOfLongestSubstring(string str) {
+        unordered_set<char> s;
+        int i=0, ans = 0;
+        for(int j=0;j<str.length();j++){
+            
+            while(s.find(str[j]) != s.end()){//keep removing elements from set until the element we are about to insert no longer exists in the set
+                s.erase(str[i++]);
+            }
+            s.insert(str[j]);
+            int size = s.size();
+            ans = max(ans,size);
+        }
+        return ans;
+    }
+};
+
+//to remember
+keep removing elements from set(from pointer i) until the element we are about to insert no longer exists in the set
+insert the current element
+update the answer
