@@ -1,0 +1,31 @@
+Given N activities with their start and finish day given in array start[ ] and end[ ]. Select the maximum number of activities that can be performed by a single person, assuming that a person can only work on a single activity at a given day.
+Note : Duration of the activity includes both starting and ending day.
+
+Efficient approach:
+class Solution
+{
+    public:
+    //Function to find the maximum number of activities that can
+    //be performed by a single person.
+    int activitySelection(vector<int> start, vector<int> end, int n)
+    {
+        // Your code here
+        vector<pair<int,int>> act(n);
+        for(int i=0;i<n;i++){
+            act[i] = {end[i],start[i]};
+        }
+        sort(act.begin(),act.end());
+        int count = 0;
+        int prev_ending=0;
+        for(auto x:act){
+            if(x.second > prev_ending){//if current start is greater than prev end we can start new activity
+                count++;
+                prev_ending = x.first;
+            }
+        }
+        return count;
+    }
+};
+
+//to remember
+next activity can only be started when previous activity has been finished.
