@@ -1,0 +1,34 @@
+Given an integer array nums that may contain duplicates, return all possible subsets (the power set).
+
+The solution set must not contain duplicate subsets. Return the solution in any order.
+
+Efficient approach:
+
+class Solution {
+    void util(vector<int> &nums,vector<vector<int>> &ans,int ind,vector<int> &curr){
+        
+        int prev = -100;
+        for(int i=ind;i<nums.size();i++){
+            if(nums[i]!=prev){
+                curr.push_back(nums[i]);
+                ans.push_back(curr);
+                util(nums,ans,i+1,curr);
+                curr.pop_back();
+                prev = nums[i];
+            }
+        }
+    }
+public:
+    vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+        sort(nums.begin(),nums.end());
+        vector<vector<int>> ans;
+        ans.push_back({});
+        vector<int> curr;
+        util(nums,ans,0,curr);
+        return ans;
+    }
+};
+
+//to remember
+sort the array
+taking unique elements at each level increase the size of you subset
