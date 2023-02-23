@@ -1,0 +1,26 @@
+Given a list arr of N integers, print sums of all subsets in it.
+
+Recursive approach:
+
+class Solution
+{
+    void util(vector<int> &arr,vector<int> &ans,int ind,int N,int sum){
+        if(ind==N){
+            ans.push_back(sum);
+            return;
+        }
+        util(arr,ans,ind+1,N,sum);//not take
+        util(arr,ans,ind+1,N,sum+arr[ind]);//take
+    }
+public:
+    vector<int> subsetSums(vector<int> arr, int N)
+    {
+        // Write Your Code here
+        vector<int> ans;
+        util(arr,ans,0,N,0);
+        return ans;
+    }
+};
+
+//to remember
+take and not take
