@@ -1,0 +1,45 @@
+Given a string s, partition s such that every substring of the partition is a palindrome. Return all possible palindrome partitioning of s.
+
+Efficient approach:
+class Solution {
+public:
+    //this is basically a brute force backtrack solution where we try out every possible
+    //substring and if we reach end by getting every substring palindrome we add it to our result
+    void util(vector<vector<string>> &ans,const string &s,int ind,vector<string> &vec)
+    {
+        if(ind == s.length())//if we reach the end just add the vec, we have ensured that if we are reaching here the current vec is a perfect palindrome partition
+        {
+            ans.push_back(vec);
+            return;
+        }
+        
+        for(int i=ind;i<s.length();i++)//try out every remaining character
+        {
+            if(ispalindrome(s,ind,i))//if palindrome is possible for a particular substring
+            {
+                vec.push_back(s.substr(ind,i - ind+1));//add that substring to vec
+                util(ans,s,i+1,vec);//and check for further substrings
+                vec.pop_back();//backtrack
+            }
+        }
+    }
+    //function to check for palindrome
+    bool ispalindrome(const string &s,int low,int high)
+    {
+        while(low<high)
+        {
+            if(s[low++]!=s[high--])
+                return false;
+        }
+        return true;
+    }
+    vector<vector<string>> partition(string s) {
+        vector<vector<string>> ans;//to store the answer
+        vector<string> vec;//to store the substrings
+        util(ans,s,0,vec);//call the function
+        return ans;//return the result
+    }
+};
+
+//to remember
+start breaking the word into smaller substrings and if we find a substring to be palindrome we call on to next index recursively if reached end add it to the answer.
