@@ -1,0 +1,28 @@
+
+
+Efficient approach:
+#include <bits/stdc++.h>
+
+double power(double a,int n){
+	double ans = 1;
+	for(int i=1;i<=n;i++){
+		ans *= a;
+	}
+	return ans;
+}
+double findNthRootOfM(int n, int m) {
+	// Write your code here.
+	double l=1,h=m;
+	
+	while((h-l) > 1e-7){
+		double mid = ((double)l + h)/2;
+		if(power(mid,n) >= m)
+			h = mid;
+		else 
+			l = mid;
+	}
+	return l;
+}
+
+//to remember
+just apply binary search condition is while(h-l > 1e-7) here we need precision till 6 decimal places
