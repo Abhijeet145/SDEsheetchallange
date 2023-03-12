@@ -1,0 +1,73 @@
+The median is the middle value in an ordered integer list. If the size of the list is even, there is no middle value, and the median is the mean of the two middle values.
+
+For example, for arr = [2,3,4], the median is 3.
+For example, for arr = [2,3], the median is (2 + 3) / 2 = 2.5.
+Implement the MedianFinder class:
+
+MedianFinder() initializes the MedianFinder object.
+void addNum(int num) adds the integer num from the data stream to the data structure.
+double findMedian() returns the median of all elements so far. Answers within 10-5 of the actual answer will be accepted.
+
+Efficient Approach:
+
+class MedianFinder {
+
+    priority_queue<int> left;//max heap
+    priority_queue<int,vector<int>,greater<int>> right;//min heap
+    int size;
+public:
+    MedianFinder() {
+        size = 0;
+    }
+    
+    void addNum(int num) {
+        if(size%2==0)
+        {
+            if(size==0)
+            {
+                size++;
+                left.push(num);
+                return;
+            }   
+            if(num<=right.top())
+                left.push(num);
+            else
+            {
+                left.push(right.top());
+                right.pop();
+                right.push(num);
+            }
+                
+        }
+        else
+        {
+            if(num>=left.top())
+                right.push(num);
+            else
+            {
+                right.push(left.top());
+                left.pop();
+                left.push(num);
+            }
+        }
+        size++;
+    }
+    
+    double findMedian() {
+        if(size%2==0)
+        {
+            double a,b;
+            a = left.top();
+            b = right.top();
+            return (a+b)/2;
+        }
+        else
+            return left.top();
+    }
+};
+
+//to remember
+make two heaps one max heap and one min heap
+we will keep the size of both the heaps equal and if there is an odd partition
+we will put extra number in the left heap
+we will add values to heaps depending on previous size and value of incoming number
