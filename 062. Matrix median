@@ -1,0 +1,58 @@
+Given a matrix of integers A of size N x M in which each row is sorted.
+
+Find and return the overall median of matrix A.
+
+NOTE: No extra memory is allowed.
+
+NOTE: Rows are numbered from top to bottom and columns are numbered from left to right.
+1 <= N, M <= 10^5
+
+1 <= N*M <= 10^6
+
+1 <= A[i] <= 10^9
+
+N*M is odd
+
+Efficient Approach:
+
+int util(vector<vector<int> > &A,int num){
+    int count = 0;
+    for(auto x:A){
+        int l = 0,h=x.size()-1;
+        int curr = 0;
+        while(l<=h){
+            int mid = l + (h-l)/2;
+            if(x[mid]<=num){
+                curr = mid+1;
+                l = mid+1;
+            } else {
+                h = mid-1;
+            }
+        }
+        count+=curr;
+    }
+    return count;
+}
+
+int Solution::findMedian(vector<vector<int> > &A) {
+    int n = A.size();
+    int m = A[0].size();
+    long long req = 1LL*n*m/2;
+    int l=1,h=1e9;
+    int ans;
+    while(l<=h){
+        int mid = l + (h-l)/2;
+        if(util(A,mid) > req){
+            ans = mid;
+            h = mid -1;
+        } else {
+            l = mid + 1;
+        }
+    }
+    return ans;
+}
+
+//to remember
+apply binary search on the range [1,1e9]
+a number can be a median if n/2 elements are less than this number
+to get this less than count we again use binary search in each row as rows are sorted.
