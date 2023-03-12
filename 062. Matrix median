@@ -52,7 +52,32 @@ int Solution::findMedian(vector<vector<int> > &A) {
     return ans;
 }
 
+//////////////a refactored code/////////////////////////////
+
+int getlower(vector<vector<int> > &A,int num){
+    int count = 0;
+    for(auto x:A){
+        count += upper_bound(x.begin(),x.end(),num) - x.begin();
+    }
+    return count;
+}
+
+int Solution::findMedian(vector<vector<int> > &A) {
+    int n = A.size();
+    int m = A[0].size();
+    int l=1,h=1e9;
+    while(l<=h){
+        int mid = l + (h-l)/2;
+        if(getlower(A,mid) > n*m/2){
+            h = mid -1;
+        } else {
+            l = mid + 1;
+        }
+    }
+    return l;
+}
+
 //to remember
 apply binary search on the range [1,1e9]
 a number can be a median if n/2 elements are less than this number
-to get this less than count we again use binary search in each row as rows are sorted.
+to get this less than count we again use binary search in each row as rows are sorted(or we can use upper_bound()).
