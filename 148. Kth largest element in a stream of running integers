@@ -1,0 +1,32 @@
+Design a class to find the kth largest element in a stream. Note that it is the kth largest element in the sorted order, not the kth distinct element.
+
+Implement KthLargest class:
+
+KthLargest(int k, int[] nums) Initializes the object with the integer k and the stream of integers nums.
+int add(int val) Appends the integer val to the stream and returns the element representing the kth largest element in the stream.
+
+Efficient Approach:
+class KthLargest {
+public:
+    priority_queue<int, vector<int>,greater<int>> pq;//min heap
+    int size;
+    KthLargest(int k, vector<int>& nums) {
+        size = k;
+        for(auto x:nums)
+        {
+            pq.push(x);
+            if(pq.size()>k)
+            pq.pop();
+        }
+    }
+    
+    int add(int val) {
+        pq.push(val);
+        if(pq.size()>size)
+        pq.pop();
+        return pq.top();
+    }
+};
+
+//to remember
+use priority queue
