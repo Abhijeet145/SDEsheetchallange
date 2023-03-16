@@ -1,0 +1,31 @@
+Given two integer arrays inorder and postorder where inorder is the inorder traversal of a binary tree and postorder is the postorder traversal of the same tree, construct and return the binary tree.
+
+ Efficient Approach:
+ class Solution {
+    TreeNode* construct(vector<int>& in, vector<int>& post,int &ind,int l,int r){
+        if(l>r) return NULL;
+        int curr = -1;
+        for(int i=l;i<=r;i++){//search for element at index in inorder
+            if(post[ind] == in[i]){
+                curr = i;
+                break;
+            }
+        }
+        TreeNode* root = new TreeNode(post[ind--]);//make the node at ind as root and move the ind to left
+        if(curr == -1) return root;
+        root->right = construct(in,post,ind,curr+1,r);//the right subtree will consist of curr+1 to r elements
+        root->left = construct(in,post,ind,l,curr-1);//the left subtree will consist of l to curr-1 elements
+        return root;
+    }
+public:
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        int n = inorder.size();
+        int ind = n-1;
+        return construct(inorder,postorder,ind,0,n-1);
+    }
+};
+
+//to remember
+Move in postorder from right the first element encountered will be the root 
+find this root in inorder vector, all the elements left of it will make left subtree and those on right of it will make right subtree
+do the above two steps recursively
