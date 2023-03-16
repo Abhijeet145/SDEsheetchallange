@@ -1,0 +1,37 @@
+https://leetcode.com/problems/flatten-binary-tree-to-linked-list/
+Given the root of a binary tree, flatten the tree into a "linked list":
+
+The "linked list" should use the same TreeNode class where the right child pointer points to the next node in the list and the left child pointer is always null.
+The "linked list" should be in the same order as a pre-order traversal of the binary tree.
+
+Efficient Approach:
+class Solution {
+public:
+    void pre(TreeNode* root,TreeNode* &prev)
+    {
+        if(root==NULL)
+            return;
+        TreeNode* left = root->left; // store the values of left and right childs
+        TreeNode* right = root->right;// as we are changing the links afterwards and may loose our original links
+        if(prev == NULL) // if prev is NULL this means it is our head of the linked list
+            prev = root;
+        
+        else // if not NULL then we need to make the required changes
+        {
+            prev->left = NULL;  // we make the left of prev as NULL
+            prev->right = root; // and right of prev as current element
+            prev = root; // Now make the current element as prev for further iterations
+        }
+        pre(left,prev); // simply do calls on left 
+        pre(right,prev);// and right child 
+    }
+    void flatten(TreeNode* root) {
+        TreeNode *prev = NULL; // prev stores the previous element in the preorder traversal
+        pre(root,prev);
+    }
+};
+
+//to remember
+store left and right child nodes
+make changes required to convert to linked list
+recur for left and right subtrees with prev
