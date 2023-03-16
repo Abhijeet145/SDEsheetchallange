@@ -1,0 +1,25 @@
+Given a Binary Tree, convert it into its mirror.
+
+Efficient apprach:
+
+class Solution {
+  public:
+    // Function to convert a binary tree into its mirror tree.
+    void mirror(Node* root) {
+        // code here
+        if(root==NULL)
+        return;
+        // swap the pointers of current node
+        Node *temp = root->left;
+        root->left = root->right;
+        root->right = temp;
+        //make mirror of subtrees
+        mirror(root->left);
+        mirror(root->right);
+    }
+};
+
+
+//to remember
+swap the pointers of current node
+make mirror of subtrees
