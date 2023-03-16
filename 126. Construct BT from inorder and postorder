@@ -29,3 +29,4 @@ public:
 Move in postorder from right the first element encountered will be the root 
 find this root in inorder vector, all the elements left of it will make left subtree and those on right of it will make right subtree
 do the above two steps recursively
+Note-> as its postorder we first call right child then left
