@@ -1,0 +1,31 @@
+https://leetcode.com/problems/diameter-of-binary-tree/
+Given the root of a binary tree, return the length of the diameter of the tree.
+
+The diameter of a binary tree is the length of the longest path between any two nodes in a tree. This path may or may not pass through the root.
+
+The length of a path between two nodes is represented by the number of edges between them.
+
+Efficient Approach:
+class Solution {
+    int height(TreeNode* root,int &ans)
+    {
+        if(root==NULL)
+        return 0;
+
+        int lh = height(root->left,ans),//get the left and
+            rh = height(root->right,ans);//the right height of the subtree
+        ans = max(ans,lh+rh); // daimeter is sum of left height + right height for each subtree
+
+        return max(lh,rh)+1;//return the height of current subtree
+    }
+public:
+    int diameterOfBinaryTree(TreeNode* root) {
+        int ans = 0;
+        height(root,ans);
+        return ans;
+    }
+};
+
+//to remember
+The daimeter is sum of left height + right height for each subtree
+this can be achieved by a small modification in height of tree function where for each subtree we compare the above point and maximum of all is our answer.
