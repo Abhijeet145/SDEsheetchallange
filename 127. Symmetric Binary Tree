@@ -1,0 +1,22 @@
+https://leetcode.com/problems/symmetric-tree/
+Given the root of a binary tree, check whether it is a mirror of itself (i.e., symmetric around its center).
+
+Efficient Approach:
+class Solution {
+    bool isMirror(TreeNode* a,TreeNode* b){
+        if(!a && !b) return true;//if both are null return true
+        if(!a || !b ) return false;//if any one of them is null return false
+        if(a->val == b->val) //if both of their values are same check for their children
+            return (isMirror(a->left,b->right) && isMirror(a->right,b->left));//notice the condition as it's a mirror we are checking
+        else return false;//if values are not same we return false
+    }
+public:
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+        return isMirror(root->left,root->right);
+    }
+};
+
+//to remember
+break the tree from root(a as left child and b as right child)
+now check if a and b are mirror of each other
