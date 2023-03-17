@@ -1,0 +1,64 @@
+https://leetcode.com/problems/implement-trie-prefix-tree/
+A trie (pronounced as "try") or prefix tree is a tree data structure used to efficiently store and retrieve keys in a dataset of strings. There are various applications of this data structure, such as autocomplete and spellchecker.
+
+Implement the Trie class:
+
+Trie() Initializes the trie object.
+void insert(String word) Inserts the string word into the trie.
+boolean search(String word) Returns true if the string word is in the trie (i.e., was inserted before), and false otherwise.
+boolean startsWith(String prefix) Returns true if there is a previously inserted string word that has the prefix prefix, and false otherwise.
+
+Efficient Approach:
+struct tnode{
+    tnode *child[26];
+    bool isEnd;
+    tnode(){
+        isEnd = false;
+        for(int i=0;i<26;i++){
+            child[i]=NULL;
+        }
+    }
+};
+class Trie {
+    tnode *root;
+public:
+    Trie() {
+        root = new tnode();
+    }
+    
+    void insert(string word) {
+        tnode *curr = root;
+        for(auto x : word){
+            if(!curr->child[x-'a'])//if child x-'a' is null we make a new connection 
+                curr->child[x-'a'] = new tnode();
+            curr = curr->child[x-'a'];//move to this child
+        }
+        curr->isEnd = true;//mark an ending here
+    }
+    
+    bool search(string word) {
+        tnode *curr = root;
+        for(auto x:word){
+            if(!curr->child[x-'a'])//if child x-'a' is null return false 
+                return false;
+            curr = curr->child[x-'a'];//else move to this child
+        }
+        return curr->isEnd == true;//when reached last check if a word is ending here
+    }
+    
+    bool startsWith(string prefix) {
+        tnode *curr = root;
+        for(auto x:prefix){
+            if(!curr->child[x-'a'])//if child x-'a' is null return false 
+                return false;
+            curr = curr->child[x-'a'];//else move to this child
+        }
+        return true;//if a prefix is found we return true
+    }
+};
+
+//to remember
+a trie is just like tree with an array to store it's children and an isEnd to mark if a word ends at that character
+insert-> keep on moving if the that node is already present and if not make a new node, at the end mark isEnd true
+search-> similar to insert but if a node is missing we return false and at the end we check if isEnd is true or not
+prefix search-> same as search but at the end we need not to check if a word is ending
