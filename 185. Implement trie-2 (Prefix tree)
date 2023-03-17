@@ -1,0 +1,82 @@
+https://www.codingninjas.com/codestudio/problems/implement-trie_1387095?utm_source=youtube&utm_medium=affiliate&utm_campaign=striver_tries_videos&leftPanelTab=0
+
+Implement function of trie
+insert(string &word)
+countWordsEqualTo(string &word)
+countWordsStartingWith(string &word)
+erase(string &word)
+
+Efficient Approach:
+struct tnode{
+    tnode *child[26];
+    int endHere;
+    int freq;
+    tnode(){
+        endHere = 0;
+        freq = 0;
+        for(int i=0;i<26;i++){
+            child[i]=NULL;
+        }
+    }
+};
+class Trie{
+    tnode *root;
+    public:
+
+    Trie(){
+        // Write your code here.
+        root = new tnode();
+    }
+
+    void insert(string &word){
+        // Write your code here.
+        tnode *curr = root;
+        for(auto x:word){
+            if(!curr->child[x-'a'])
+                curr->child[x-'a'] = new tnode();
+            curr = curr->child[x-'a'];
+            curr->freq += 1;
+        }
+        curr->endHere += 1;
+    }
+
+    int countWordsEqualTo(string &word){
+        // Write your code here.
+        tnode *curr = root;
+        for(auto x:word){
+            if(!curr->child[x-'a'])
+                return 0;
+            curr = curr->child[x-'a'];
+        }
+        return curr->endHere;
+    }
+
+    int countWordsStartingWith(string &word){
+        // Write your code here.
+        tnode *curr = root;
+        for(auto x:word){
+            if(!curr->child[x-'a'])
+                return 0;
+            curr = curr->child[x-'a'];
+        }
+        return curr->freq;
+    }
+
+    void erase(string &word){
+        // Write your code here.
+        tnode *curr = root;
+        for(auto x:word){
+            if(curr->child[x-'a']->freq > 1)
+                curr->child[x-'a']->freq -= 1;
+            else{
+                curr->child[x-'a'] = NULL;
+                return;
+            }
+            curr = curr->child[x-'a'];
+        }
+        curr->endHere -= 1;
+    }
+};
+
+//to remember
+just like trie implementation with use of int variables to store freq and number endings
