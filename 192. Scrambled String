@@ -1,0 +1,51 @@
+https://leetcode.com/problems/scramble-string/
+
+We can scramble a string s to get a string t using the following algorithm:
+
+If the length of the string is 1, stop.
+If the length of the string is > 1, do the following:
+Split the string into two non-empty substrings at a random index, i.e., if the string is s, divide it to x and y where s = x + y.
+Randomly decide to swap the two substrings or to keep them in the same order. i.e., after this step, s may become s = x + y or s = y + x.
+Apply step 1 recursively on each of the two substrings x and y.
+Given two strings s1 and s2 of the same length, return true if s2 is a scrambled string of s1, otherwise, return false.
+
+Efficient Approach:
+class Solution {
+   bool util(string s1,string s2,map<string,bool> &dp){
+       if(s1.size() != s2.size()) return false;//if length of string are not equal they can't be scrambelled strings
+        if(s1.size()==1) return s1 == s2;//if it is of length 1 it can't be further divided so we directly check them and return
+       
+        string key = s1+" "+s2;//make a unique key by adding space in between
+        
+       //memoisation
+       if(dp.find(key)!=dp.end())//if this pair of strings were seen earlier we return their stored value
+           return dp[key];
+       
+       int n = s1.size();
+        for(int i=1;i<n;i++){//else we start breaking them into two non-empty strings
+            //this is the most important step in this
+            //---> if we didn't swap
+            //first half of s1 should be equal to that of s2 and second half of s1 should equal to that of s2(this is checked in first part of if condition)
+            //---> if we swapped
+            //first helf of s1 would be equal to second half of s2 with same length and vice-versa(this is checked in second part of if condition)
+            
+            if((util(s1.substr(0,i),s2.substr(0,i),dp) && util(s1.substr(i),s2.substr(i),dp)) || (util(s1.substr(0,i),s2.substr(n-i),dp) && util(s1.substr(i),s2.substr(0,n-i),dp)))
+                return dp[key] = true;//if either of them is true we store it and return
+        }
+       
+       //if none of the divisions return true it should be false
+        return dp[key] = false;
+   }
+public:
+    bool isScramble(string s1, string s2) {
+        map<string,bool> dp;
+        return util(s1,s2,dp);
+    }
+};
+
+//to remember
+think of how a string is scrambled
+two parts of the string should be non-empty
+we can either swap them or leave them as they are
+if not swapped we check the two halves of s1 and s2 for scrambled strings
+if swapped we check first half of s1 with that of s2 and vice-versa for scrambled strings
